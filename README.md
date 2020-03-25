@@ -66,3 +66,40 @@ Download [this](https://www.dropbox.com/s/1oyipstjxh2n5wo/LJ_logdir.tar?dl=0).
   * The paper didn't mention dropouts. I applied them as I believe it helps for regularization.
   * Check also other TTS models such as [Tacotron](https://github.com/kyubyong/tacotron) and [Deep Voice 3](https://github.com/kyubyong/deepvoice3).
   
+
+
+## My Notes
+
+
+### Env
+
+python -m venv project_env
+
+On windows use:
+
+.\project_env\Scripts\Activate.ps1
+
+in powershell .bat doesn't work anymore
+
+pip install -r requirements.txt
+
+
+
+### GPU Support
+
+https://towardsdatascience.com/installing-tensorflow-with-cuda-cudnn-and-gpu-support-on-windows-10-60693e46e781
+
+Make sure to add to path:
+```
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\bin
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\libnvvp
+```
+
+C:\Program Files\NVIDIA GPU ComputingToolkit\CUDA
+
+nvidia-smi
+$env:path -split ";"
+
+import tensorflow as tf 
+tf.test.is_built_with_cuda()
+tf.test.is_gpu_available(cuda_only=False, min_cuda_compute_capability=None)

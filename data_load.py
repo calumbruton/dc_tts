@@ -45,6 +45,7 @@ def load_data(mode="train"):
             transcript = os.path.join(hp.data, 'transcript.csv')
             lines = codecs.open(transcript, 'r', 'utf-8').readlines()
             for line in lines:
+                print("K ", line)
                 fname, _, text = line.strip().split("|")
 
                 fpath = os.path.join(hp.data, "wavs", fname + ".wav")
@@ -104,8 +105,8 @@ def get_batch():
         if hp.prepro:
             def _load_spectrograms(fpath):
                 fname = os.path.basename(fpath)
-                mel = "mels/{}".format(fname.replace("wav", "npy"))
-                mag = "mags/{}".format(fname.replace("wav", "npy"))
+                mel = "mels/{}".format(fname.decode("utf-8").replace("wav", "npy"))
+                mag = "mags/{}".format(fname.decode("utf-8").replace("wav", "npy"))
                 return fname, np.load(mel), np.load(mag)
 
             fname, mel, mag = tf.py_func(_load_spectrograms, [fpath], [tf.string, tf.float32, tf.float32])

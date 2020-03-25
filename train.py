@@ -139,7 +139,7 @@ if __name__ == '__main__':
     num = int(sys.argv[1])
 
     g = Graph(num=num); print("Training Graph loaded")
-
+    
     logdir = hp.logdir + "-" + str(num)
     sv = tf.train.Supervisor(logdir=logdir, save_model_secs=0, global_step=g.global_step)
     with sv.managed_session() as sess:

@@ -11,7 +11,7 @@ class Hyperparams:
     
     # signal processing
     sr = 22050  # Sampling rate.
-    n_fft = 2048  # fft points (samples)
+    n_fft = 2048  # fft pointswwwwwww (samples)
     frame_shift = 0.0125  # seconds
     frame_length = 0.05  # seconds
     hop_length = int(sr * frame_shift)  # samples. =276.
@@ -32,7 +32,7 @@ class Hyperparams:
     attention_win_size = 3
 
     # data
-    data = "/data/private/voice/LJSpeech-1.0"
+    data = "../LJSpeech-1.1"
     # data = "/data/private/voice/kate"
     test_data = 'harvard_sentences.txt'
     vocab = "PE abcdefghijklmnopqrstuvwxyz'.?" # P: Padding, E: EOS.
