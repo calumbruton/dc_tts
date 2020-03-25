@@ -73,15 +73,15 @@ Download [this](https://www.dropbox.com/s/1oyipstjxh2n5wo/LJ_logdir.tar?dl=0).
 
 ### Env
 
-python -m venv project_env
+`python -m venv project_env`
 
 On windows use:
 
-.\project_env\Scripts\Activate.ps1
+`.\project_env\Scripts\Activate.ps1`
 
 in powershell .bat doesn't work anymore
 
-pip install -r requirements.txt
+`pip install -r requirements.txt`
 
 
 
@@ -97,9 +97,14 @@ C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v10.0\libnvvp
 
 C:\Program Files\NVIDIA GPU ComputingToolkit\CUDA
 
+```
 nvidia-smi
 $env:path -split ";"
+```
 
+Check python using gpu and cuda:
+```
 import tensorflow as tf 
 tf.test.is_built_with_cuda()
 tf.test.is_gpu_available(cuda_only=False, min_cuda_compute_capability=None)
+```
