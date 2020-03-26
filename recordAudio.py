@@ -5,8 +5,10 @@ import wave
 import keyboard
 import time
 
-# Location of transcript and where to store audio recording data
+# Change this to point to your directory containing the transcript
 path = "../CalumData"
+
+# Location of transcript and where to store audio recording data
 audio_files_path = os.path.join(path, "wavs")
 
 chunk = 1024  # Record in chunks of 1024 samples

@@ -85,6 +85,17 @@ in powershell .bat doesn't work anymore
 
 
 
+### Audio Recording
+
+Run `python recordAudio.py` to record your own data. 
+
+To use it you must:
+  - Create a directory
+  - Add a CSV transcript names `transcript.csv` to it where each row is a line of the form \<nameOfLine\> | \<Line text\> | \<Line text\>
+  - Change the line declaring path at the top of `recordAudio.py` to the path to this newly created directory
+
+
+
 ### GPU Support
 
 https://towardsdatascience.com/installing-tensorflow-with-cuda-cudnn-and-gpu-support-on-windows-10-60693e46e781
