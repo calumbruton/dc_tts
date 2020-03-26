@@ -81,9 +81,9 @@ def load_data(mode="train"):
         # Parse
         lines = codecs.open(hp.test_data, 'r', 'utf-8').readlines()[1:]
         sents = [text_normalize(line.split(" ", 1)[-1]).strip() + "E" for line in lines] # text normalization, E: EOS
-        texts = np.zeros((len(sents), hp.max_N), np.int32)
+        texts = np.zeros((len(sents), hp.max_N), np.int32)  # 2D int32 array of sentences rows of Max number of chars values
         for i, sent in enumerate(sents):
-            texts[i, :len(sent)] = [char2idx[char] for char in sent]
+            texts[i, :len(sent)] = [char2idx[char] for char in sent] # map each charcter of the sentence to its corresponding value
         return texts
 
 def get_batch():

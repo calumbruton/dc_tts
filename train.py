@@ -45,6 +45,7 @@ class Graph:
             self.mels = tf.placeholder(tf.float32, shape=(None, None, hp.n_mels))
             self.prev_max_attentions = tf.placeholder(tf.int32, shape=(None,))
 
+        # Training first neural net or testing
         if num==1 or (not training):
             with tf.variable_scope("Text2Mel"):
                 # Get S or decoder inputs. (B, T//r, n_mels)
@@ -66,6 +67,8 @@ class Graph:
                                                                              prev_max_attentions=self.prev_max_attentions)
                 with tf.variable_scope("AudioDec"):
                     self.Y_logits, self.Y = AudioDec(self.R, training=training) # (B, T/r, n_mels)
+        
+        # Training second neural net
         else:  # num==2 & training. Note that during training,
             # the ground truth melspectrogram values are fed.
             with tf.variable_scope("SSRN"):
@@ -142,12 +145,19 @@ if __name__ == '__main__':
     
     logdir = hp.logdir + "-" + str(num)
     sv = tf.train.Supervisor(logdir=logdir, save_model_secs=0, global_step=g.global_step)
+
+    # the managed session automatically reinitialize variables from the most recent checkpoint (based on the logdir)
+    # sv.managed_session() returns A context manager that yields a `Session` restored from the latest checkpoint or 
+    # initialized from scratch if no checkpoint exists.  The session is closed when the `with` block exits.
+    # SessionManager responsible for checkpoint intialization and saving
+    # model_checkpoint_path in checkpoint file is what is restored
     with sv.managed_session() as sess:
         while 1:
             for _ in tqdm(range(g.num_batch), total=g.num_batch, ncols=70, leave=False, unit='b'):
                 gs, _ = sess.run([g.global_step, g.train_op])
 
                 # Write checkpoint files at every 1k steps
+                # A protocol buffer file kept in the same directory as the checkpoint files, is automatically managed by the saver to keep track of recent checkpoints.  Defaults to 'checkpoint'.
                 if gs % 1000 == 0:
                     sv.saver.save(sess, logdir + '/model_gs_{}'.format(str(gs // 1000).zfill(3) + "k"))
 
