@@ -6,15 +6,12 @@ import math
 import contextlib
 import os
 import pathlib
-
-fname = 'LJ001-0004.wav'
-outname = 'LJ001-0004.wav'
-
-cutOffFrequency = 400.0
+import subprocess
 
 # Location of transcript and where to store audio recording data
 input_dir = "../CalumData/wavs"
 output_dir = "../CalumData/denoisedWavs"
+base_dir = "../CalumData"
 
 # from http://stackoverflow.com/questions/13728392/moving-average-or-running-mean
 def running_mean(x, windowSize):
@@ -56,19 +53,41 @@ if __name__ == '__main__':
         # The full file input and output paths
         file_input_path = os.path.join(input_dir, fname)
         file_output_path = os.path.join(output_dir, fname)
+        noise_prof_path = os.path.join(base_dir, 'noise.prof')
 
-        with wave.open(file_input_path,'rb') as spf:
-            sampleRate = spf.getframerate()
-            ampWidth = spf.getsampwidth()
-            nChannels = spf.getnchannels()
-            nFrames = spf.getnframes()
+        print(file_input_path, file_output_path, noise_prof_path)
 
-            print(sampleRate, ampWidth, nChannels, nFrames)
+        # Remove noise using sox - must be in PATH
+        res = subprocess.Popen(['sox', file_input_path, file_output_path, 'noisered', noise_prof_path, '0.21'], shell = True)
 
-            # Extract Raw Audio from multi-channel Wav File
-            signal = spf.readframes(nFrames*nChannels)
-            spf.close()
-            channels = interpret_wav(signal, nFrames, nChannels, ampWidth, True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # with wave.open(file_input_path,'rb') as spf:
+            # cutOffFrequency = 400.0
+            # sampleRate = spf.getframerate()
+            # ampWidth = spf.getsampwidth()
+            # nChannels = spf.getnchannels()
+            # nFrames = spf.getnframes()
+
+            # print(sampleRate, ampWidth, nChannels, nFrames)
+
+            # # Extract Raw Audio from multi-channel Wav File
+            # signal = spf.readframes(nFrames*nChannels)
+            # spf.close()
+            # channels = interpret_wav(signal, nFrames, nChannels, ampWidth, True)
 
 
             # Low Pass Filter -------------------------------
@@ -84,7 +103,6 @@ if __name__ == '__main__':
             # Reduce noise ----------------------
 
 
-
             # channels[0] = [x if x>250 or x<-250 else 0 for x in channels[0]]
             # print(len(channels[0]))
             
@@ -92,7 +110,7 @@ if __name__ == '__main__':
             # channel_clipped = channels[0][20000:len(channels[0])-10000]
 
             # Write out wav file
-            wav_file = wave.open(file_output_path, "w")
-            wav_file.setparams((1, ampWidth, sampleRate, nFrames, spf.getcomptype(), spf.getcompname()))
-            wav_file.writeframes(channels[0].tobytes('C'))
-            wav_file.close()
+            # wav_file = wave.open(file_output_path, "w")
+            # wav_file.setparams((1, ampWidth, sampleRate, nFrames, spf.getcomptype(), spf.getcompname()))
+            # wav_file.writeframes(channels[0].tobytes('C'))
+            # wav_file.close()

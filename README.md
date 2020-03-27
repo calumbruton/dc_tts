@@ -95,6 +95,23 @@ To use it you must:
   - Change the line declaring path at the top of `recordAudio.py` to the path to this newly created directory
 
 
+#### Remove Noise
+
+Use [Sox](sox.sourceforge.net)
+
+```
+# Create background noise profile
+sox noise.mp3 -n noiseprof noise.prof
+
+# Remove noise from wav using the profile
+sox input.wav output.wav noisered noise.prof 0.21
+```
+
+Run `python removeAudioNoise.py` to denoise every file automatically, requires:
+  - Capturing an audio file of only noise and putting it in the directory of the transcript (one level above the wav files)
+  - Using `sox noise.mp3 -n noiseprof noise.prof` to create a profile
+  - sox must be added to PATH
+
 
 ### GPU Support
 

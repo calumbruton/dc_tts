@@ -39,7 +39,9 @@ def record(name):
     frames = []  # Initialize array to store frames
 
     # Record until keystroke
-    input('Press any key to start recoding the line above and e to stop...')
+    # input('Press any key to start recoding the line above and e to stop...')
+    print("Press w to start recording the line an e to stop..")
+    keyboard.wait('w')
     print('Recording')
     while True:
         if keyboard.is_pressed('e'):
