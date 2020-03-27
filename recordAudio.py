@@ -1,3 +1,5 @@
+#/usr/bin/python3
+
 import os, sys
 import pathlib
 import pyaudio
@@ -31,16 +33,20 @@ def record(name):
                     channels=channels,
                     rate=fs,
                     frames_per_buffer=chunk,
-                    input=True)
+                    input=True,
+                    input_device_index=1)
 
     frames = []  # Initialize array to store frames
 
     # Record until keystroke
-    input('Press ENTER to start recoding the line above and Enter again to stop...')
+    input('Press any key to start recoding the line above and e to stop...')
     print('Recording')
     while True:
         if keyboard.is_pressed('e'):
             break
+        if keyboard.is_pressed('r'):
+            frames = []
+            print("Try again.. Recording")
         data = stream.read(chunk)
         frames.append(data)
 
@@ -70,9 +76,14 @@ if __name__ == '__main__':
         print(f)
 
     # Start number in the transcript csv based on how many lines we have recorded already in our audio files
-    start_line = len([name for name in os.listdir(audio_files_path)])
-    print("Starting at line {}".format(start_line))
+    if len(sys.argv) < 2: 
+        start_line = len([name for name in os.listdir(audio_files_path)])
+    else:
+        print(sys.argv[1])
+        start_line = int(sys.argv[1])-1
+    print("Starting at line {} - 1 indexed".format(start_line+1))
 
+    time.sleep(1)
     with open(transcript, "r") as f:
         # enumerate(x) uses x.next, so it doesn't read the entire file in memory 
         for i, line in enumerate(f):
